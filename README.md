@@ -16,7 +16,7 @@ La API proporciona funcionalidades para:
 ### `GET /Cliente`
 **Descripción**: Permite OBTENER un cliente mediante DNI.  
 **Parametros de la solicitud**:
-''' ?DNI=12345678A
+''' ?DNI=12345678A '''
 
 
 ### `POST /Cliente`
@@ -28,7 +28,7 @@ La API proporciona funcionalidades para:
   "Nombre": "Juan Pérez",
   "Email": "juan.perez@example.com",
   "CapitalSolicitado": 100000
-}
+}'''
 
 ### `PUT /Cliente`
 **Descripción**: Permite ACTUALIZAR un cliente con los datos proporcionados.  
