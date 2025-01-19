@@ -10,6 +10,8 @@ Se ha utilizado una funcion para validar el DNI mediante el algoritmo oficial. N
 La API proporciona funcionalidades para:
 - Crear y gestionar clientes.
 - Realizar simulaciones de hipotecas en función del TAE y el plazo.
+- Puedes ver una pagina de presentacion en la ruta http://localhost:8086
+- Puedes acceder a la documentacion Swagger en la ruta http://localhost:8086/swagger
 
 ## Endpoints
 
@@ -62,6 +64,64 @@ Simulacion?DNI=12345678A&TAE=3.5&PLAZO=35
 ```
 
 ## Instalación
+### Requisitos
+- Python 3.x
+- pip (gestor de paquetes de Python)
+  
+### Pasos:
+
+#### 1. Clonar el repositorio o descargar el proyecto
+Si aún no tienes el proyecto, clónalo o descárgalo en tu máquina.
+
+#### 2. Crear un entorno virtual 
+Ve a la carpeta del proyecto y Crea un entorno virtual con el siguiente comando:
+```bash
+python -m venv venv
+```
+o
+```bash
+python3 -m venv venv
+```
+
+#### 3. Activar el entorno virtual
+En CMD Windows:
+```bash
+venv\Scripts\activate
+```
+
+En Powershell Windows:
+```bash
+.\venv\Scripts\activate
+```
+
+En Linux:
+```bash
+source venv/bin/activate
+```
+
+#### 4. Instalar las dependencias
+Con el entorno virtual activado, instala todas las dependencias necesarias que están listadas en el archivo requirements.txt:
+```bash
+pip install -r requirements.txt
+```
+
+
+#### 5. Ejecutar la aplicación
+Una vez instaladas las dependencias, ejecuta el archivo app.py para iniciar la API:
+```bash
+python app.py
+```
+Esto debería iniciar la API en http://localhost:8086 (o la IP y el puerto configurado en la aplicación).
+
+
+
+
+
+
+
+
+
+
 
 
 
