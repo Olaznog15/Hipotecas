@@ -16,7 +16,8 @@ La API proporciona funcionalidades para:
 ### `GET /Cliente`
 **Descripción**: Permite OBTENER un cliente mediante DNI.  
 **Parametros de la solicitud**:
-```?DNI=12345678A 
+```txt
+?DNI=12345678A 
 ```
 
 ### `POST /Cliente`
@@ -56,7 +57,8 @@ DNI: Dni con letra del cliente registrado en la BBDD
 TAE: Tasa anual equivalente para el calculo de la hipoteca
 PLAZO: Numero de años en los que se quiere financiar la hipoteca
 Ejemplo:
-```Simulacion?DNI=12345678A&TAE=3.5&PLAZO=35 
+```txt
+Simulacion?DNI=12345678A&TAE=3.5&PLAZO=35 
 ```
 
 ## Instalación
