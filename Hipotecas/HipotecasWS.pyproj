@@ -30,15 +30,20 @@
   <ItemGroup>
     <Compile Include="app.py" />
     <Compile Include="BBDD\gestionBBDD.py" />
+    <Compile Include="Controllers\ClienteController.py" />
+    <Compile Include="Controllers\SimulacionController.py" />
     <Compile Include="Utiles\Validadores.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BBDD\Database.db" />
     <Content Include="requirements.txt" />
+    <Content Include="static\api_homepage.png" />
     <Content Include="templates\index.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BBDD\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="static\" />
     <Folder Include="Utiles\" />
     <Folder Include="templates\" />
   </ItemGroup>

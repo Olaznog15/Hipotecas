@@ -22,5 +22,13 @@ def query_db(query, args=(), one=False):
         cur.close()
         return (rv[0] if rv else None) if one else rv
     except sqlite3.Error as e:
-        print(f"Error en la consulta: {e}")
-        return None
+       raise e
+
+   
+def execute_query_db(query, args=(), one=False):
+    try:
+        cur = get_db().execute(query, args)
+        cur.close()
+        return cur.rowcount
+    except sqlite3.Error as e:
+       raise e
