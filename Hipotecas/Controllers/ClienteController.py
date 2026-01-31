@@ -3,6 +3,8 @@ from flask import Flask, make_response, request, jsonify
 from BBDD import gestionBBDD
 from Utiles import Validadores
 from flask_restx import Api, Namespace, Resource, fields, reqparse
+from Repositories.ClienteRepository import ClienteRepository
+from Repositories.SimulacionRepository import SimulacionRepository
 
 ClienteCtrl = Namespace("Cliente", path="/Cliente", description ="Clientes API Controller")
 CrearclienteCommand = ClienteCtrl.model("CrearclienteCommand",{
@@ -31,9 +33,8 @@ class Cliente(Resource):
         if not Validadores.ValidarDNI(dni):    
             resp = make_response(jsonify({"error": "El DNI introducido no es valido"}), 400)
             return resp
-        # Consulta parametrizada para evitar inyecciones SQL
-        query = "SELECT * FROM tbClientes WHERE DNI = ?"
-        client = gestionBBDD.query_db(query, [dni], one=True)
+        
+        client = ClienteRepository.get_by_dni(dni)
 
         if client is None:    
             resp = make_response(jsonify({"error": "Cliente no encontrado"}), 404)
@@ -63,14 +64,9 @@ class Cliente(Resource):
         if not Validadores.ValidarDNI(dni):           
             resp = make_response(jsonify({"error": "El DNI introducido no es valido"}), 400)
             return resp
-        # Insertar en la base de datos
-        query = """
-            INSERT INTO tbClientes (DNI, Nombre, Email, CapitalSolicitado)
-            VALUES (?, ?, ?, ?)
-        """
+        
         try:
-            gestionBBDD.execute_query_db(query, [dni, nombre, email, capital])
-            gestionBBDD.get_db().commit()  # Confirmar los cambios           
+            ClienteRepository.create(dni, nombre, email, capital)         
             resp = make_response(jsonify({"message": "Cliente agregado exitosamente"}), 201)
             return resp
         except Exception as e:
@@ -115,14 +111,8 @@ class Cliente(Resource):
             resp = make_response(jsonify({"error": "No se proporcionaron campos para actualizar"}), 400)
             return resp
 
-        # Agregar el DNI al final de los par�metros para la cl�usula WHERE
-        params.append(dni)
-
-        query = f"UPDATE tbClientes SET {', '.join(updates)} WHERE DNI = ?"
-
         try:
-            rows_affected = gestionBBDD.execute_query_db(query, params)
-            gestionBBDD.get_db().commit()  # Confirmar los cambios
+            rows_affected = ClienteRepository.update(dni, nombre, email, capital)
 
             if rows_affected == 0:      
                 resp = make_response(jsonify({"error": "Cliente no encontrado"}), 404)
@@ -152,13 +142,9 @@ class Cliente(Resource):
             return resp
 
         # Eliminar el cliente
-        query = "DELETE FROM tbClientes WHERE DNI = ?"
-        query2 = "DELETE FROM tbSimulaciones WHERE DNI = ?"
-
         try:
-            rows_affected = gestionBBDD.execute_query_db(query, [dni])
-            rows_affected2 = gestionBBDD.execute_query_db(query2, [dni])
-            gestionBBDD.get_db().commit()  # Confirmar los cambios
+            rows_affected = ClienteRepository.delete(dni)
+            SimulacionRepository.delete_by_client_dni(dni)
 
             if rows_affected == 0:        
                 resp = make_response(jsonify({"error": "Cliente no encontrado"}), 404)

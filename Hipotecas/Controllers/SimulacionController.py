@@ -4,6 +4,8 @@ from BBDD import gestionBBDD
 from Utiles import Validadores
 from datetime import datetime
 from flask_restx import Api, Namespace, Resource, fields, reqparse
+from Repositories.ClienteRepository import ClienteRepository
+from Repositories.SimulacionRepository import SimulacionRepository
 
 SimulacionCtrl = Namespace("Simulacion", path="/Simulacion", description ="Simulacion API Controller")
 
@@ -45,9 +47,7 @@ class Simulacion(Resource):
             resp = make_response(jsonify({"error": "El PLAZO introducido no es valido"}), 400)
             return resp
 
-        # Consulta parametrizada para evitar inyecciones SQL
-        query = "SELECT * FROM tbClientes WHERE DNI = ?"
-        client = gestionBBDD.query_db(query, [dni], one=True)
+        client = ClienteRepository.get_by_dni(dni)
 
         if client is None:
             return jsonify({"error": "Cliente no encontrado"})
@@ -59,13 +59,8 @@ class Simulacion(Resource):
         importeTotal = cuota * n
 
             # Insertar en la base de datos
-        query = """
-            INSERT INTO tbSimulaciones (DNI, Capital, Tae, Plazo, CuotaMensual, ImporteTotal, FechaSimulacion)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """
         try:
-            gestionBBDD.query_db(query, [dni, capital, tae, plazo, cuota, importeTotal, datetime.now()])
-            gestionBBDD.get_db().commit()  # Confirmar los cambios
+            SimulacionRepository.create(dni, capital, tae, plazo, cuota, importeTotal)
         except Exception as e:
             resp = make_response(jsonify({"error": f"Error al guardar informacion de simulacion: {str(e)}"}), 500)
             return resp
