@@ -50,7 +50,8 @@ class Simulacion(Resource):
         client = ClienteRepository.get_by_dni(dni)
 
         if client is None:
-            return jsonify({"error": "Cliente no encontrado"})
+            resp = make_response(jsonify({"error": "Cliente no encontrado"}), 404)
+            return resp
 
         capital = dict(client)["CapitalSolicitado"]
         i = (float(tae)/100)/12

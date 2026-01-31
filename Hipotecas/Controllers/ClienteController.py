@@ -9,7 +9,7 @@ from Repositories.SimulacionRepository import SimulacionRepository
 ClienteCtrl = Namespace("Cliente", path="/Cliente", description ="Clientes API Controller")
 CrearclienteCommand = ClienteCtrl.model("CrearclienteCommand",{
     'DNI': fields.String(required=True, description='dni', example ="00000000T"),
-    'Nombre': fields.String(required=True, description='Namespacenombre', example ="Gonzalo Montero"),
+    'Nombre': fields.String(required=True, description='Nombre del cliente', example ="Gonzalo Montero"),
     'Email': fields.String(required=True, description='email', example ="gonzalo.montero15@gmail.com"),
     'CapitalSolicitado': fields.String(required=True, description='capital', example ="250000")
     })
